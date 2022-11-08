@@ -8,14 +8,20 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DiceComponent implements OnInit {
   constructor() {}
   ngOnInit(): void {}
-  @Input() diceNumber = 0;
+  _diceNumber: number = 0;
+  @Input() set diceNumber(value: number) {
+    this._diceNumber = value;
+    this.dots = this.calcDots(value);
+  }
 
-  public get dots(): string[] {
-    return [...Array(this.diceNumber).keys()].map((dot) => this.dotClass(dot));
+  dots: string[] = [];
+
+  public calcDots(value: number): string[] {
+    return [...Array(value).keys()].map((dot) => this.dotClass(dot));
   }
 
   public isEven(): boolean {
-    return this.diceNumber % 2 === 0;
+    return this._diceNumber % 2 === 0;
   }
 
   /**
